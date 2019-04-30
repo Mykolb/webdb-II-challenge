@@ -21,15 +21,38 @@ router.get('/', (req, res) => {
     })
     .catch(err => {
         res.status(500).json({ error: err, message: 'Zoos could not be found'})
-
     })
 })
 
+//GET by ID 
+router.get('/:id', (req, res) => {
+ zooDb('zoos')
+    .where({ id: req.params.id })
+    // .first()
+    .then(zoo => {
+        res.status(200).json(zoo)
+    })
+    .catch(err => {
+        res.status(500).json({ error: err, message: 'There was an error retrieving the data'})
+    })
+})
 
-
-
-
-
+//POST 
+router.post('/', (req, res) => {
+    if (!req.body.name) {
+        res.status(404).json({ message: 'The name associated with with this zoo could not be found'})
+        } else { 
+    zooDb('zoos')
+    .insert(req.body, 'name')
+    .then(id => {
+        res.status(201).json(id)
+    })
+    .catch(err => {
+        res.status(500).json({ error: err, message: 'There was an error creating the data'})
+    })
+}
+})
+   
 
 
 
