@@ -77,6 +77,20 @@ router.put('/:id', (req, res) => {
     })
 })
 
+//DELETE 
+router.delete('/:id', (req, res) => {
+    zooDb('zoos')
+    .where({ id: req.params.id})
+    .del()
+    .then(zoo => {
+        if(zoo === 1) {
+            res.status(200).end()
+        }
+    })
+    .catch(error => {
+        res.status(500).json({ error: err, message: 'There was an error deleting the data'})
+    })
+})
 
 
 
