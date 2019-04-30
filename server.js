@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const knex = require('knex');
 //router
 const zooRouter = require('./routes/zoo-router');
+const bearRouter = require('./routes/bear-router');
 const server = express();
 
 
@@ -13,6 +14,7 @@ server.use(morgan('dev'));
 
 
 server.use('/api/zoos', zooRouter);
+server.use('/api/bears', bearRouter);
 
 server.get('/', (req, res) => {
     res.send(`
