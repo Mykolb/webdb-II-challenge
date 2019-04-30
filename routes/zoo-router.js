@@ -24,18 +24,24 @@ router.get('/', (req, res) => {
     })
 })
 
+
 //GET by ID 
+//select * from roles where id = :id
 router.get('/:id', (req, res) => {
  zooDb('zoos')
     .where({ id: req.params.id })
-    // .first()
+    .first()
     .then(zoo => {
-        res.status(200).json(zoo)
+        if(zoo) {
+          res.status(200).json(zoo);
+        } else {
+        res.status(404).json({ message: 'The zoo associated with this id cannot be found' });
+        }
     })
     .catch(err => {
         res.status(500).json({ error: err, message: 'There was an error retrieving the data'})
     })
-})
+});
 
 //POST 
 router.post('/', (req, res) => {
@@ -53,6 +59,24 @@ router.post('/', (req, res) => {
 }
 })
    
+
+//PUT 
+router.put('/:id', (req, res) => {
+    zooDb('zoos')
+    .where({ id: req.params.id})
+    .update(req.body)
+    .then(zoo => {
+        if(zoo === 0) {
+            res.status(404).json({ message: 'The zoo associated with this id cannot be found' }); 
+        } else {
+            res.status(201).json(zoo)
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ error: err, message: 'There was an error updating the data'})
+    })
+})
+
 
 
 
