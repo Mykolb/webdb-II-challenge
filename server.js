@@ -1,7 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const knex = require('knex');
+
 //router
 const zooRouter = require('./routes/zoo-router');
 const bearRouter = require('./routes/bear-router');
